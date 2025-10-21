@@ -6,14 +6,18 @@ import br.com.clinicamedica.ms_usuarios.mapper.MedicoMapper;
 import br.com.clinicamedica.ms_usuarios.model.Medico;
 import br.com.clinicamedica.ms_usuarios.repository.MedicoRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
 public class MedicoService {
 
-    private final MedicoRepository repository;
-    private final MedicoMapper mapper;
+    @Autowired
+    private MedicoRepository repository;
+
+    @Autowired
+    private MedicoMapper mapper;
 
     public MedicoResponseDTO cadastrarMedico(MedicoRequestDTO dto){
 
