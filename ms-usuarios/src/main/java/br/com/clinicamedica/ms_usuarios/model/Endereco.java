@@ -1,7 +1,6 @@
 package br.com.clinicamedica.ms_usuarios.model;
 
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
