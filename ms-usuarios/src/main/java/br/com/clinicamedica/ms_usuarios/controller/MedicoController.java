@@ -3,6 +3,7 @@ package br.com.clinicamedica.ms_usuarios.controller;
 import br.com.clinicamedica.ms_usuarios.dto.MedicoRequestDTO;
 import br.com.clinicamedica.ms_usuarios.dto.MedicoResponseDTO;
 import br.com.clinicamedica.ms_usuarios.service.MedicoService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,7 @@ public class MedicoController {
     private MedicoService service;
 
     @PostMapping
-    public ResponseEntity<MedicoResponseDTO> cadastrarMedico(@RequestBody MedicoRequestDTO dto){
+    public ResponseEntity<MedicoResponseDTO> cadastrarMedico(@Valid @RequestBody MedicoRequestDTO dto){
         MedicoResponseDTO medicoCriado = service.cadastrarMedico(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(medicoCriado);
     }

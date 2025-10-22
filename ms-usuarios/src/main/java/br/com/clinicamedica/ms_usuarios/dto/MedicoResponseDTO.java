@@ -11,5 +11,5 @@ public record MedicoResponseDTO(
         String telefone,
         String crm,
         Especialidade especialidade,
-        Endereco endereco
+        EnderecoResponseDTO endereco
 ) {}

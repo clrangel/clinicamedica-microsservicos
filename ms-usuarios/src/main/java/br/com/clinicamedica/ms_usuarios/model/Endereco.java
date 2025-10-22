@@ -4,9 +4,11 @@ import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Embeddable //Indica que a classe não terá tabela própria, mas será incorporada em outra entidade (Médico e Paciente).
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Endereco {
