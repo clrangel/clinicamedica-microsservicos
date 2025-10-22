@@ -7,6 +7,5 @@ public record PacienteResponseDTO(
         String email,
         String cpf,
         String telefone,
-        EnderecoRequestDTO endereco
-) {
-}
+        EnderecoResponseDTO endereco
+) {}
