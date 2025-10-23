@@ -26,6 +26,5 @@ public class PacienteController {
         PacienteResponseDTO pacienteCriado = service.cadastrarPaciente(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(pacienteCriado);
     }
-
 }
 

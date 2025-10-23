@@ -25,5 +25,4 @@ public class PacienteService {
         repository.save(paciente);
         return mapper.toDto(paciente);
     }
-    
 }
