@@ -29,6 +29,7 @@ Essa abordagem demonstra a integração entre microsserviços, persistência de 
 - Validation API
 - Lombok
 - Spring DevTools
+- MapStruct (mapeamento automático entre DTOs e entidades)
 
 ---
 
@@ -37,17 +38,31 @@ Essa abordagem demonstra a integração entre microsserviços, persistência de 
 ### 1. ms-usuarios
 Gerencia as informações de **médicos, pacientes, funcionários (no futuro) e endereços**, incluindo validação e persistência dos dados no banco PostgreSQL.
 
+#### Funcionalidades atuais:
+- Cadastro de Médico com informações pessoais e endereço embutido
+- Cadastro de Paciente com informações pessoais e endereço embutido
+- Conversão automática entre DTOs e entidades utilizando MapStruct
+- Validações com Jakarta Validation
+- Controle de versão do schema com Flyway
+
 ### 2. ms-consultas
 Responsável pelo **agendamento de consultas**, integração com o microsserviço de usuários e envio de notificações (e-mails de confirmação de consulta).
 
 ---
 
-## 🗄️ Configuração do Banco de Dados
+## 🗄️ Configuração do Banco de Dados (PostgreSQL)
 
 O projeto utiliza PostgreSQL.  
-Antes de rodar o microsserviço `ms-usuarios`, crie o banco de dados:
+Antes de rodar os microsserviços, crie os bancos de dados correspondentes:
 
+### Para o microsserviço de usuários:
+```bash
 CREATE DATABASE ms_usuariosdb;
+```
+### Para o microsserviço de consultas:
+```bash
+### CREATE DATABASE ms_consultasdb;
+```
 
 ## 🗄️ Configurações no `application.properties`
 
@@ -72,23 +87,31 @@ Observação: Para executar o microsserviço, é necessário configurar o applic
 ```bash
 git clone https://github.com/seuusuario/clinicamedica-microsservicos.git
 ```
-### Passo 2: Acessar o microsserviço
-```bash
-cd clinicamedica-microsservicos/ms-usuarios
-```
+Após clonar, acesse o microsserviço desejado (ms-usuarios, ms-consultas, etc.) e execute o projeto pela sua IDE ou terminal.
+
+Certifique-se de:
+
+Ter o PostgreSQL em execução e com os bancos criados conforme instruído acima.
+
+Atualizar o arquivo application.properties de cada microsserviço com seu usuário e senha do PostgreSQL.
+
+Atualizar o arquivo application.properties de cada microsserviço com o nome correto de cada banco de dados.
+
+Ter o Java 21 configurado no ambiente.
+
 ## 💬 Sobre o Projeto
 O clinicamedica-microsservicos é um projeto pessoal desenvolvido para estudo e prática de arquitetura de microsserviços, integração com bancos de dados, mensageria (RabbitMQ) e Docker.
 
 Ele será evoluído gradualmente, com foco em qualidade, organização e aplicabilidade em ambientes reais.
 
 ## 🧠 Objetivo
-Criação de microsserviços independentes em Java/Spring Boot
+Criação de microsserviços independentes em Java/Spring Boot.
 
-Integração entre serviços
+Integração entre serviços.
 
-Controle de versão de banco com Flyway
+Controle de versão de banco com Flyway.
 
-Preparação para deploy em contêineres Docker
+Preparação para deploy em contêineres Docker.
 
-Boas práticas de código e arquitetura
+Boas práticas de código e arquitetura.
 
