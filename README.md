@@ -30,6 +30,10 @@ Essa abordagem demonstra a integração entre microsserviços, persistência de 
 - Lombok
 - Spring DevTools
 - MapStruct (mapeamento automático entre DTOs e entidades)
+---
+- Spring Cloud Netflix Eureka Server — implementação do Service Registry
+- Spring Cloud Netflix Eureka Client — registro e descoberta automática dos microsserviços
+- Spring Cloud Discovery — integração nativa com o ecossistema Spring
 
 ---
 
@@ -44,12 +48,49 @@ Gerencia as informações de **médicos, pacientes, funcionários (no futuro) e 
 - Conversão automática entre DTOs e entidades utilizando MapStruct
 - Validações com Jakarta Validation
 - Controle de versão do schema com Flyway
+- Registro automático no Eureka Server como cliente de descoberta de serviços
 
 ### 2. ms-consultas
 Responsável pelo **agendamento de consultas**, integração com o microsserviço de usuários e envio de notificações (e-mails de confirmação de consulta).
 
+Funcionalidades atuais:
+
+- Cadastro de consultas médicas, armazenando pacienteId, medicoId, data e horário
+
+- Controle de versão do schema com Flyway
+
+- Registro automático no Eureka Server como cliente de descoberta de serviços
+
 ---
 
+### 3. service-registry
+
+Microsserviço responsável pelo Service Discovery da aplicação.
+Implementa o padrão Service Registry utilizando Spring Cloud Netflix Eureka Server.
+
+Funcionalidades:
+
+Atua como servidor central de registro (Eureka Server)
+
+Permite que os microsserviços (ms-usuarios, ms-consultas) se autoregistrem e descubram dinamicamente uns aos outros
+
+Facilita a comunicação entre microsserviços sem depender de URLs fixas
+
+Interface acessível via navegador em http://localhost:8081, onde todos os serviços registrados ficam visíveis
+
+---
+
+## 🌩️ Ecossistema Spring Cloud Discovery
+
+Este projeto utiliza o ecossistema Spring Cloud Discovery, que oferece suporte a registro e descoberta automática de microsserviços.
+
+O Eureka Server atua como o registro central (Service Registry).
+
+Os Eureka Clients (ms-usuarios e ms-consultas) se registram automaticamente no servidor e consultam outros serviços quando necessário.
+
+Essa configuração garante escalabilidade, resiliência e baixo acoplamento entre os microsserviços, permitindo que a comunicação ocorra sem a necessidade de configurações manuais de endereços.
+
+---
 ## 🗄️ Configuração do Banco de Dados (PostgreSQL)
 
 O projeto utiliza PostgreSQL.  
