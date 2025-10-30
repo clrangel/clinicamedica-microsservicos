@@ -9,8 +9,6 @@ import org.mapstruct.factory.Mappers;
 @Mapper(componentModel = "spring")
 public interface AgendamentoConsultaMapper {
 
-    AgendamentoConsultaMapper INSTANCE = Mappers.getMapper(AgendamentoConsultaMapper.class);
-
     AgendamentoConsulta toEntity(AgendamentoConsultaRequestDTO dto);
 
     AgendamentoConsultaResponseDTO toDTO(AgendamentoConsulta entity);
