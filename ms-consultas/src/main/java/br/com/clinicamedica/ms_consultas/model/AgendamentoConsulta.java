@@ -28,6 +28,9 @@ public class AgendamentoConsulta {
     @NotNull(message = "O ID do médico é obrigatório.")
     private Long medicoId;
 
+    @Column(nullable = false)
+    private String especialidade;
+
     @NotNull(message = "A data da consulta é obrigatória.")
     @FutureOrPresent(message = "A data da consulta deve ser hoje ou uma data futura.")
     private LocalDate data;

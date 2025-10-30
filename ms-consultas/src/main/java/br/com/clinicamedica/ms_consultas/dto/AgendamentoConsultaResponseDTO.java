@@ -8,6 +8,7 @@ public record AgendamentoConsultaResponseDTO(
         Long id,
         Long pacienteId,
         Long medicoId,
+        String especialidade,
         LocalDate data,
         LocalTime horario,
         String observacoes
