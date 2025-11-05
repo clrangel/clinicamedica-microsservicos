@@ -31,9 +31,10 @@ Essa abordagem demonstra a integração entre microsserviços, persistência de 
 - Spring DevTools
 - MapStruct (mapeamento automático entre DTOs e entidades)
 ---
-- Spring Cloud Netflix Eureka Server — implementação do Service Registry
-- Spring Cloud Netflix Eureka Client — registro e descoberta automática dos microsserviços
-- Spring Cloud Discovery — integração nativa com o ecossistema Spring
+- **Spring Cloud Discovery** - integração nativa com o ecossistema Spring
+- **Spring Cloud Netflix Eureka Server** — implementação do Service Registry
+- **Spring Cloud Netflix Eureka Client** — registro e descoberta automática dos microsserviços
+- **API Gateway** - Spring Cloud Gateway (Reactive Gateway - Spring Cloud Routing)
 
 ---
 
@@ -80,15 +81,43 @@ Interface acessível via navegador em http://localhost:8081, onde todos os servi
 
 ---
 
-## 🌩️ Ecossistema Spring Cloud Discovery
+### 4. api-gateway
 
-Este projeto utiliza o ecossistema Spring Cloud Discovery, que oferece suporte a registro e descoberta automática de microsserviços.
+Microsserviço responsável pelo roteamento centralizado das requisições entre os demais serviços da aplicação.
+Implementa o padrão API Gateway utilizando Spring Cloud Gateway (Reactive Gateway - Spring Cloud Routing).
 
-O Eureka Server atua como o registro central (Service Registry).
+Funcionalidades:
 
-Os Eureka Clients (ms-usuarios e ms-consultas) se registram automaticamente no servidor e consultam outros serviços quando necessário.
+- Atua como ponto único de entrada para todas as requisições da aplicação.
 
-Essa configuração garante escalabilidade, resiliência e baixo acoplamento entre os microsserviços, permitindo que a comunicação ocorra sem a necessidade de configurações manuais de endereços.
+- Encaminha dinamicamente as requisições para os microsserviços registrados no Eureka Server.
+
+- Simplifica a comunicação entre os microsserviços, evitando o acoplamento direto entre eles.
+
+- Facilita a aplicação de políticas globais, como autenticação, segurança e balanceamento de carga.
+
+- Configurado como Eureka Client, estando visível no painel do Service Registry (http://localhost:8081).
+
+Porta padrão: 8082
+
+---
+
+### 🌐 Ecossistema Spring Cloud Discovery
+
+O projeto utiliza o ecossistema do **Spring Cloud Discovery**, que fornece recursos de registro, descoberta e roteamento dinâmico de microsserviços.
+
+**Componentes:**
+- **Eureka Server (Service Registry)**: responsável por registrar e disponibilizar os microsserviços para descoberta.
+    - Porta padrão: `8081`
+    - Endpoint: [http://localhost:8081](http://localhost:8081)
+- **Eureka Clients**: microsserviços que se registram automaticamente no Eureka Server.
+    - Microsserviços registrados: `ms-usuarios`, `ms-consultas`, `api-gateway`
+- **API Gateway**: atua como ponto de entrada único para as requisições, encaminhando-as para os microsserviços corretos.
+    - Porta padrão: `8082`
+    - Exemplo de endpoint via Gateway: `http://localhost:8082/ms-consultas/consultas`
+
+> O Gateway também permite a implementação futura de autenticação, monitoramento e balanceamento de carga entre instâncias registradas no Eureka.
+
 
 ---
 ## 🗄️ Configuração do Banco de Dados (PostgreSQL)
