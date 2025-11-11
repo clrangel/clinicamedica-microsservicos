@@ -9,6 +9,8 @@ import br.com.clinicamedica.ms_usuarios.model.Medico;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring", uses = EnderecoMapper.class)
 public interface MedicoMapper {
 
@@ -34,4 +36,6 @@ public interface MedicoMapper {
     @Mapping(source = "endereco", target = "endereco")
     MedicoResponseDTO toDto(Medico entity);
 
+    // adicione isso — MapStruct gera a implementação automaticamente
+    List<MedicoResponseDTO> toDTOList(List<Medico> medicos);
 }

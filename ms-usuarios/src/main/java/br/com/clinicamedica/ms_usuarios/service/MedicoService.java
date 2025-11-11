@@ -30,8 +30,6 @@ public class MedicoService {
 
     public List<MedicoResponseDTO> listarTodosMedicos() {
         List<Medico> medicos = repository.findAll();
-        return medicos.stream()
-                .map(mapper::toDto)
-                .toList();
+        return mapper.toDTOList(medicos);
     }
 }
