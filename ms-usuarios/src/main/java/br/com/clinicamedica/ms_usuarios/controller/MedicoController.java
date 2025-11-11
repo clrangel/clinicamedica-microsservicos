@@ -32,4 +32,10 @@ public class MedicoController {
         List<MedicoResponseDTO> medicos = service.listarTodosMedicos();
         return ResponseEntity.ok(medicos);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<MedicoResponseDTO> buscarMedicoPorId(@PathVariable Long id) {
+        MedicoResponseDTO medico = service.buscarMedicoPorId(id);
+        return ResponseEntity.ok(medico);
+    }
 }

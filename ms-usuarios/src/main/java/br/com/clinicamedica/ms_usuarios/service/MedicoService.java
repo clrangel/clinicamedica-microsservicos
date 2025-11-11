@@ -32,4 +32,10 @@ public class MedicoService {
         List<Medico> medicos = repository.findAll();
         return mapper.toDTOList(medicos);
     }
+
+    public MedicoResponseDTO buscarMedicoPorId(Long id) {
+        Medico medico = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Médico não encontrado com o ID: " + id));
+        return mapper.toDto(medico);
+    }
 }
