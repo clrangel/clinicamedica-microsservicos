@@ -32,5 +32,11 @@ public class PacienteController {
         List<Paciente> pacientes = service.listarTodosPacientes();
         return ResponseEntity.ok(pacientes);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Paciente> buscarPacientePorId(@PathVariable Long id) {
+        Paciente paciente = service.buscarPacientePorId(id);
+        return ResponseEntity.ok(paciente);
+    }
 }
 
