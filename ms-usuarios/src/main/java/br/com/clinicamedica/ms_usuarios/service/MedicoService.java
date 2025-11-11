@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class MedicoService {
@@ -24,5 +26,12 @@ public class MedicoService {
         Medico medico = mapper.toEntity(dto);
         repository.save(medico);
         return mapper.toDto(medico);
+    }
+
+    public List<MedicoResponseDTO> listarTodosMedicos() {
+        List<Medico> medicos = repository.findAll();
+        return medicos.stream()
+                .map(mapper::toDto)
+                .toList();
     }
 }
