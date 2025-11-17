@@ -35,6 +35,8 @@ Essa abordagem demonstra a integração entre microsserviços, persistência de 
 - **Spring Cloud Netflix Eureka Server** — implementação do Service Registry
 - **Spring Cloud Netflix Eureka Client** — registro e descoberta automática dos microsserviços
 - **API Gateway** - Spring Cloud Gateway (Reactive Gateway - Spring Cloud Routing)
+- **OpenFeign - Feign Client** (Spring Cloud OpenFeign): Comunicação declarativa entre microsserviços, permitindo chamadas HTTP simplificadas entre os serviços.
+
 
 ---
 
@@ -50,6 +52,7 @@ Gerencia as informações de **médicos, pacientes, funcionários (no futuro) e 
 - Validações com Jakarta Validation
 - Controle de versão do schema com Flyway
 - Registro automático no Eureka Server como cliente de descoberta de serviços
+- Fornecimento de dados de médicos e pacientes para outros microsserviços via Feign Client
 
 ### 2. ms-consultas
 Responsável pelo **agendamento de consultas**, integração com o microsserviço de usuários e envio de notificações (e-mails de confirmação de consulta).
@@ -61,6 +64,8 @@ Funcionalidades atuais:
 - Controle de versão do schema com Flyway
 
 - Registro automático no Eureka Server como cliente de descoberta de serviços
+
+- Integração com o ms-usuarios via Spring Cloud OpenFeign, permitindo buscar dados completos de paciente e médico no momento do agendamento
 
 ---
 
@@ -120,6 +125,19 @@ O projeto utiliza o ecossistema do **Spring Cloud Discovery**, que fornece recur
 
 
 ---
+
+---
+
+### 🧩 Integração entre Microsserviços
+
+#### Comunicação entre Microsserviços
+
+A comunicação entre o **ms-consultas** e o **ms-usuarios** é realizada através do **Spring Cloud OpenFeign**, que abstrai as chamadas HTTP, tornando a integração entre os serviços simples e legível.
+
+Durante o agendamento de uma consulta, o **ms-consultas** utiliza o **Feign Client (`UsuarioClient`)** para obter informações detalhadas sobre o **paciente** e o **médico**, garantindo que os dados exibidos e enviados por e-mail sejam sempre atualizados e consistentes com o microsserviço de usuários.
+
+---
+
 ## 🗄️ Configuração do Banco de Dados (PostgreSQL)
 
 O projeto utiliza PostgreSQL.  
