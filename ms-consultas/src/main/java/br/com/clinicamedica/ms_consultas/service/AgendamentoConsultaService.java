@@ -3,10 +3,12 @@ package br.com.clinicamedica.ms_consultas.service;
 import br.com.clinicamedica.ms_consultas.client.UsuarioClient;
 import br.com.clinicamedica.ms_consultas.dto.AgendamentoConsultaRequestDTO;
 import br.com.clinicamedica.ms_consultas.dto.AgendamentoConsultaResponseDTO;
+import br.com.clinicamedica.ms_consultas.dto.EmailDto;
 import br.com.clinicamedica.ms_consultas.dto.feign.MedicoFeignResponseDTO;
 import br.com.clinicamedica.ms_consultas.dto.feign.PacienteFeignResponseDTO;
 import br.com.clinicamedica.ms_consultas.mapper.AgendamentoConsultaMapper;
 import br.com.clinicamedica.ms_consultas.model.AgendamentoConsulta;
+import br.com.clinicamedica.ms_consultas.producer.PacienteProducer;
 import br.com.clinicamedica.ms_consultas.repository.AgendamentoConsultaRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -19,11 +21,13 @@ public class AgendamentoConsultaService {
     private final AgendamentoConsultaRepository repository;
     private final AgendamentoConsultaMapper mapper;
     private final UsuarioClient usuarioClient;
+    private final PacienteProducer producer;
 
-    public AgendamentoConsultaService(AgendamentoConsultaRepository repository, AgendamentoConsultaMapper mapper, UsuarioClient usuarioClient) {
+    public AgendamentoConsultaService(AgendamentoConsultaRepository repository, AgendamentoConsultaMapper mapper, UsuarioClient usuarioClient, PacienteProducer producer) {
         this.repository = repository;
         this.mapper = mapper;
         this.usuarioClient = usuarioClient;
+        this.producer = producer;
     }
 
     @Transactional
@@ -45,6 +49,18 @@ public class AgendamentoConsultaService {
         // O mapper já instancia e preenche os campos da entidade
         AgendamentoConsulta consulta = mapper.toEntity(dto);
         AgendamentoConsulta saved = repository.save(consulta);
+
+        // ENVIA O EMAIL COM OS DADOS COMPLETOS
+        producer.enviarEmail(new EmailDto(
+                saved.getId(),
+                paciente.nome(),
+                paciente.cpf(),
+                medico.nome(),
+                medico.especialidade().toString(),
+                saved.getData(),
+                saved.getHorario(),
+                saved.getObservacoes()
+        ));
 
         // Retorna o DTO da consulta com informações adicionais
         return new AgendamentoConsultaResponseDTO(
