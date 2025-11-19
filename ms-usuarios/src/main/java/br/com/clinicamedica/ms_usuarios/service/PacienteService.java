@@ -50,7 +50,7 @@ public class PacienteService {
         if (paciente.isPresent()) {
             SimpleMailMessage enviaMensagem = new SimpleMailMessage();
 
-            enviaMensagem.setFrom("SEU EMAIL"); //Apagar email antes dos commits
+            enviaMensagem.setFrom("EMAIL"); //Apagar email antes dos commits
             enviaMensagem.setTo(paciente.get().getEmail());
             enviaMensagem.setSubject("Informações sobre a consulta " + mensagem.id());
 

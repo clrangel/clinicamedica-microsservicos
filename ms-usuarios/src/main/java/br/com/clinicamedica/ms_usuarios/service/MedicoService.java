@@ -38,4 +38,8 @@ public class MedicoService {
                 .orElseThrow(() -> new RuntimeException("Médico não encontrado com o ID: " + id));
         return mapper.toDto(medico);
     }
+
+    public void deletar(Long id){
+        repository.deleteById(id);
+    }
 }

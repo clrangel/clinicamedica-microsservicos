@@ -38,4 +38,10 @@ public class MedicoController {
         MedicoResponseDTO medico = service.buscarMedicoPorId(id);
         return ResponseEntity.ok(medico);
     }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Long id){
+        service.deletar(id);
+        return ResponseEntity.noContent().build();
+    }
 }
