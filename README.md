@@ -12,7 +12,7 @@ O fluxo principal é:
 1. **Cadastro de Médicos**: É possível registrar médicos com suas informações e especialidades.
 2. **Cadastro de Pacientes**: Pacientes podem ser cadastrados com seus dados pessoais e endereço.
 3. **Agendamento de Consultas**: Um paciente pode marcar uma consulta com um médico disponível.
-4. **Confirmação por E-mail**: Após a consulta ser criada, um **e-mail de confirmação** é enviado automaticamente para o paciente.
+4. **Confirmação por Email**: Após a consulta ser criada, um **email de confirmação** é enviado automaticamente para o paciente.
 
 Essa abordagem demonstra a integração entre microsserviços, persistência de dados no PostgreSQL e envio de notificações via RabbitMQ.
 
@@ -36,7 +36,9 @@ Essa abordagem demonstra a integração entre microsserviços, persistência de 
 - **Spring Cloud Netflix Eureka Client** — registro e descoberta automática dos microsserviços
 - **API Gateway** - Spring Cloud Gateway (Reactive Gateway - Spring Cloud Routing)
 - **OpenFeign - Feign Client** (Spring Cloud OpenFeign): Comunicação declarativa entre microsserviços, permitindo chamadas HTTP simplificadas entre os serviços.
+---
 
+- **Mensageria com RabbitMQ**
 
 ---
 
@@ -126,8 +128,6 @@ O projeto utiliza o ecossistema do **Spring Cloud Discovery**, que fornece recur
 
 ---
 
----
-
 ### 🧩 Integração entre Microsserviços
 
 #### Comunicação entre Microsserviços
@@ -135,6 +135,19 @@ O projeto utiliza o ecossistema do **Spring Cloud Discovery**, que fornece recur
 A comunicação entre o **ms-consultas** e o **ms-usuarios** é realizada através do **Spring Cloud OpenFeign**, que abstrai as chamadas HTTP, tornando a integração entre os serviços simples e legível.
 
 Durante o agendamento de uma consulta, o **ms-consultas** utiliza o **Feign Client (`UsuarioClient`)** para obter informações detalhadas sobre o **paciente** e o **médico**, garantindo que os dados exibidos e enviados por e-mail sejam sempre atualizados e consistentes com o microsserviço de usuários.
+
+---
+## 📬 Mensageria com RabbitMQ
+
+Este projeto utiliza RabbitMQ para comunicação assíncrona entre microsserviços.
+Quando uma consulta é criada no ms-consultas, o serviço envia uma mensagem para uma fila no RabbitMQ.
+O ms-usuarios consome essa mensagem e envia um email real ao paciente com os dados da consulta.
+
+### 🔄 Fluxo
+
+Produtor (ms-consultas): envia um EmailDto após o agendamento.
+
+Consumidor (ms-usuarios): recebe a mensagem e dispara o email usando JavaMailSender.
 
 ---
 
