@@ -5,6 +5,7 @@ import br.com.clinicamedica.ms_usuarios.dto.MedicoResponseDTO;
 import br.com.clinicamedica.ms_usuarios.mapper.MedicoMapper;
 import br.com.clinicamedica.ms_usuarios.model.Medico;
 import br.com.clinicamedica.ms_usuarios.repository.MedicoRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,5 +42,19 @@ public class MedicoService {
 
     public void deletar(Long id){
         repository.deleteById(id);
+    }
+
+    @Transactional
+    public MedicoResponseDTO atualizar(Long id, MedicoRequestDTO dto) {
+
+        Medico medico = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Médico não encontrado: " + id));
+
+        // Aqui o MapStruct atualiza o objeto existente
+        mapper.updateFromDto(dto, medico);
+
+        Medico medicoSalvo = repository.save(medico);
+
+        return mapper.toDto(medicoSalvo);
     }
 }

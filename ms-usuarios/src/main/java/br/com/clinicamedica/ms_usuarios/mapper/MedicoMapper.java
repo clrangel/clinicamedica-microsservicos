@@ -6,8 +6,7 @@ import br.com.clinicamedica.ms_usuarios.dto.MedicoRequestDTO;
 import br.com.clinicamedica.ms_usuarios.dto.MedicoResponseDTO;
 import br.com.clinicamedica.ms_usuarios.model.Endereco;
 import br.com.clinicamedica.ms_usuarios.model.Medico;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.mapstruct.*;
 
 import java.util.List;
 
@@ -38,4 +37,9 @@ public interface MedicoMapper {
 
     // adicione isso — MapStruct gera a implementação automaticamente
     List<MedicoResponseDTO> toDTOList(List<Medico> medicos);
+
+    // Atualiza um médico existente com dados do DTO
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void updateFromDto(MedicoRequestDTO dto, @MappingTarget Medico entity);
+
 }

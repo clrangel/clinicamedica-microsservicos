@@ -44,4 +44,13 @@ public class MedicoController {
         service.deletar(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<MedicoResponseDTO> atualizar(
+            @PathVariable Long id,
+            @RequestBody MedicoRequestDTO dto
+    ) {
+        MedicoResponseDTO atualizado = service.atualizar(id, dto);
+        return ResponseEntity.ok(atualizado);
+    }
 }
