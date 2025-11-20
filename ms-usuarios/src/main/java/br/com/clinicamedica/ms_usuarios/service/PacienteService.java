@@ -1,11 +1,11 @@
 package br.com.clinicamedica.ms_usuarios.service;
 
-import br.com.clinicamedica.ms_usuarios.dto.EmailDto;
-import br.com.clinicamedica.ms_usuarios.dto.PacienteRequestDTO;
-import br.com.clinicamedica.ms_usuarios.dto.PacienteResponseDTO;
+import br.com.clinicamedica.ms_usuarios.dto.*;
 import br.com.clinicamedica.ms_usuarios.mapper.PacienteMapper;
+import br.com.clinicamedica.ms_usuarios.model.Medico;
 import br.com.clinicamedica.ms_usuarios.model.Paciente;
 import br.com.clinicamedica.ms_usuarios.repository.PacienteRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -46,6 +46,20 @@ public class PacienteService {
 
     public void deletar(Long id){
         repository.deleteById(id);
+    }
+
+    @Transactional
+    public PacienteResponseDTO atualizar(Long id, PacienteRequestDTO dto) {
+
+        Paciente paciente = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Paciente não encontrado: " + id));
+
+        // Aqui o MapStruct atualiza o objeto existente
+        mapper.updateFromDto(dto, paciente);
+
+        Paciente pacienteSalvo = repository.save(paciente);
+
+        return mapper.toDto(pacienteSalvo);
     }
 
     public void enviarMensagem(EmailDto mensagem) {

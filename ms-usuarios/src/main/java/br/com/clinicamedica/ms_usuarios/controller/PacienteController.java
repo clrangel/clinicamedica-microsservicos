@@ -1,5 +1,7 @@
 package br.com.clinicamedica.ms_usuarios.controller;
 
+import br.com.clinicamedica.ms_usuarios.dto.MedicoRequestDTO;
+import br.com.clinicamedica.ms_usuarios.dto.MedicoResponseDTO;
 import br.com.clinicamedica.ms_usuarios.dto.PacienteRequestDTO;
 import br.com.clinicamedica.ms_usuarios.dto.PacienteResponseDTO;
 import br.com.clinicamedica.ms_usuarios.model.Paciente;
@@ -43,6 +45,15 @@ public class PacienteController {
     public ResponseEntity<Void> deletar(@PathVariable Long id){
         service.deletar(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<PacienteResponseDTO> atualizar(
+            @PathVariable Long id,
+            @RequestBody PacienteRequestDTO dto
+    ) {
+        PacienteResponseDTO atualizado = service.atualizar(id, dto);
+        return ResponseEntity.ok(atualizado);
     }
 }
 
