@@ -44,6 +44,10 @@ public class PacienteService {
                 .orElseThrow(() -> new RuntimeException("Paciente não encontrado com ID: " + id));
     }
 
+    public void deletar(Long id){
+        repository.deleteById(id);
+    }
+
     public void enviarMensagem(EmailDto mensagem) {
         Optional<Paciente> paciente = repository.findByCpf(mensagem.cpf());
 

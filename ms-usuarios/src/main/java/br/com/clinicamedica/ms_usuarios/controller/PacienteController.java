@@ -38,5 +38,11 @@ public class PacienteController {
         Paciente paciente = service.buscarPacientePorId(id);
         return ResponseEntity.ok(paciente);
     }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Long id){
+        service.deletar(id);
+        return ResponseEntity.noContent().build();
+    }
 }
 
