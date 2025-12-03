@@ -74,4 +74,38 @@ public class AgendamentoConsultaService {
         );
 
     }
+
+    @Transactional
+    public AgendamentoConsultaResponseDTO atualizarConsulta(Long id, AgendamentoConsultaRequestDTO dto) {
+        // Busca a consulta existente
+        AgendamentoConsulta consultaExistente = repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Consulta não encontrada com id: " + id));
+
+        // Validações
+        if (dto.data() != null && dto.data().isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("A data da consulta deve ser hoje ou futura.");
+        }
+
+        // Atualiza a entidade usando MapStruct
+        mapper.updateEntityFromDTO(dto, consultaExistente);
+
+        // Salva a atualização
+        AgendamentoConsulta updated = repository.save(consultaExistente);
+
+        // Retorna o DTO da consulta atualizado (sem enviar email ainda)
+        // Busca os nomes do paciente e médico via Feign Client
+        String nomePaciente = usuarioClient.buscarPacientePorId(updated.getPacienteId()).nome();
+        String nomeMedico = usuarioClient.buscarMedicoPorId(updated.getMedicoId()).nome();
+
+        return new AgendamentoConsultaResponseDTO(
+                updated.getId(),
+                nomePaciente,
+                nomeMedico,
+                updated.getEspecialidade(),
+                updated.getData(),
+                updated.getHorario(),
+                updated.getObservacoes()
+        );
+    }
+
 }

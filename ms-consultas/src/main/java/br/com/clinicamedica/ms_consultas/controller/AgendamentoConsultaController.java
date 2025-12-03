@@ -26,6 +26,15 @@ public class AgendamentoConsultaController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<AgendamentoConsultaResponseDTO> atualizarConsulta(
+            @PathVariable Long id,
+            @RequestBody AgendamentoConsultaRequestDTO dto) {
+        AgendamentoConsultaResponseDTO updated = service.atualizarConsulta(id, dto);
+        return ResponseEntity.ok(updated);
+    }
+
+
 
     // Endpoint usado apenas para identificar visualmente de qual instância (porta) a resposta veio.
     // Útil para testes de balanceamento de carga entre múltiplas instâncias.
