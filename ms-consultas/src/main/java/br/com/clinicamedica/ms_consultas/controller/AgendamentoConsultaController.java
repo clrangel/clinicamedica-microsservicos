@@ -34,6 +34,11 @@ public class AgendamentoConsultaController {
         return ResponseEntity.ok(updated);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
+        service.deletarConsulta(id);
+        return ResponseEntity.noContent().build();
+    }
 
 
     // Endpoint usado apenas para identificar visualmente de qual instância (porta) a resposta veio.

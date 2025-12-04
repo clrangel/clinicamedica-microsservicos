@@ -108,4 +108,15 @@ public class AgendamentoConsultaService {
         );
     }
 
+    @Transactional
+    public void deletarConsulta(Long id) {
+
+        // Verifica se a consulta existe
+        AgendamentoConsulta consulta = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Consulta não encontrada para o ID: " + id));
+
+        // Deleta a consulta
+        repository.delete(consulta);
+    }
+
 }
